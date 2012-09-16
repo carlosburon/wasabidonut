@@ -2,6 +2,8 @@ package com.me.testo;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,23 +18,24 @@ public class Testo implements ApplicationListener {
 	private Texture texture;
 	private Sprite sprite;
 	
+	Texture dropImage;
+	Texture bucketImage;
+    Sound dropSound;
+    Music rainMusic;
+
 	@Override
-	public void create() {		
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		
-		camera = new OrthographicCamera(1, h/w);
-		batch = new SpriteBatch();
-		
-		texture = new Texture(Gdx.files.internal("data/libgdx.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
-		
-		sprite = new Sprite(region);
-		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		sprite.setPosition(-sprite.getWidth()/2, -sprite.getHeight()/2);
+	   public void create() {
+	      // load the images for the droplet and the bucket, 48x48 pixels each
+	      dropImage = new Texture(Gdx.files.internal("water.png"));
+	      bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+	      
+	      // load the drop sound effect and the rain background "music"
+	      dropSound = Gdx.audio.newSound(Gdx.files.internal("waterdrop.wav"));
+	      rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+	      
+	      // start the playback of the background music immediately
+	      rainMusic.setLooping(true);
+	      rainMusic.play();
 	}
 
 	@Override
